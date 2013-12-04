@@ -26,6 +26,13 @@ If you want to explore and get dirty with the code, please read
 documentation`_ before diving into the playbooks. Documentation for creating
 plugins for the server is under construction.
 
+Plugins documentation
+---------------------
+
+- `Portal`_
+
+.. _Portal: roles/portal/README.rst
+
 See the `XSCE wiki`_ for more information about the project.
 
 .. _docs/INSTALL.rst: docs/INSTALL.rst
