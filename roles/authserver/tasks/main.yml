@@ -1,17 +1,26 @@
-- name: check pip is installed
-  yum: name=python-pip
+- name: check pip and virtualenv are installed
+  yum: name={{ item }}
        state=present
+  with_items:
+    - python-pip
+    - python-virtualenv
   tags:
     - download
 
-- name: install xs-authserver from pypi
-  pip: name=xs-authserver
-  tags:
-    - download
+- name: create application folder
+  file: state=directory
+        path=/usr/local/xs-authserver/
+        owner=root
+        group=root
+        mode=0644
 
-- name: install gunicorn
-  yum: name=python-gunicorn
-       state=present
+- name: install xs-authserver and requirements from pypi into a venv
+  pip: name={{ item }}
+       virtualenv=/usr/local/xs-authserver/venv
+       extra_args='--use-wheel --find-links http://xsce.activitycentral.com/wheelhouse/'
+  with_items:
+    - xs-authserver
+    - gunicorn
   tags:
     - download
 
@@ -31,18 +40,11 @@
       mode: 0644
       mode: 0644
 
-- name: create database folder
-  file: state=directory
-        path=/var/lib/xs-authserver/
-        owner=root
-        group=root
-        mode=0644
-
 - name: init database
-  command: xs-authserverctl initdb
+  command: /usr/local/xs-authserver/venv/bin/xs-authserverctl initdb
   ignore_errors: yes
   environment:
-    XS_AUTHSERVER_DATABASE: /var/lib/xs-authserver/data.db
+    XS_AUTHSERVER_DATABASE: /usr/local/xs-authserver/data.db
 
 - name: Enable xs-authserver service
   service: name=xs-authserver

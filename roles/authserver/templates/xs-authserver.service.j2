@@ -4,7 +4,7 @@ After=httpd.service
 
 [Service]
 EnvironmentFile=-/etc/sysconfig/xs-authserver
-ExecStart=/usr/bin/gunicorn -n xs-authserver xs_authserver:app -b 0.0.0.0:5000
+ExecStart=/usr/local/xs-authserver/venv/bin/gunicorn -n xs-authserver xs_authserver:app -b 0.0.0.0:5000
 
 [Install]
 WantedBy=multi-user.target
