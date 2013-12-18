@@ -17,10 +17,16 @@
 - name: install xs-authserver and requirements from pypi into a venv
   pip: name={{ item }}
        virtualenv=/usr/local/xs-authserver/venv
-       extra_args='--use-wheel --find-links http://xsce.activitycentral.com/wheelhouse/'
+       extra_args='--no-deps --use-wheel --find-links http://xsce.activitycentral.com/wheelhouse/'
   with_items:
-    - xs-authserver
-    - gunicorn
+    - Flask==0.10.1
+    - Jinja2==2.7.1
+    - MarkupSafe==0.18
+    - Werkzeug==0.9.4
+    - gunicorn==18.0
+    - itsdangerous==0.23
+    - wsgiref==0.1.2
+    - xs-authserver==0.1.5
   tags:
     - download
 
